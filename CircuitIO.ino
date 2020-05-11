@@ -1,6 +1,3 @@
-// object initialization
-MPU6050 mpu6050;
-
 void Setup_CircuitIO()
 {
   Wire.begin();

@@ -1,5 +1,5 @@
-#define scl_pin D1  // definição do pino I2C SCL
-#define sda_pin D2  // definição do pino I2C SDA
+#define scl_pin  D1  // definição do pino I2C SCL
+#define sda_pin  D2  // definição do pino I2C SDA
 
 /*
    Definições de alguns endereços mais comuns do MPU6050
@@ -84,12 +84,21 @@ void checkMPU(int mpu_addr)
 
     data = readRegMPU(PWR_MGMT_1); // Register 107 – Power Management 1-0x6B
 
-    if (data == 64) Serial.println("MPU6050 em modo SLEEP! (64)");
-    else Serial.println("MPU6050 em modo ACTIVE!");
+    if (data == 64)
+    {
+      Serial.println("MPU6050 em modo SLEEP! (64)");
+    }
+    else
+    {
+      Serial.println("MPU6050 em modo ACTIVE!");
+    }
   }
-  else Serial.println("Verifique dispositivo - MPU6050 NÃO disponível!");
-  delay(100);
-  checkMPU(mpu_addr);
+  else
+  {
+    Serial.println("Verifique dispositivo - MPU6050 NÃO disponível!");
+    delay(100);
+    checkMPU(mpu_addr);
+  }
 }
 
 /*

@@ -1,13 +1,13 @@
 void mostraRAW()
 {
   Serial.print(tempo_prev);
-  Serial.print("\tTmp = "); Serial.print(Tp);
-  Serial.print("\tAcX = "); Serial.print(AX);
-  Serial.print("\tAcY = "); Serial.print(AY);
-  Serial.print("\tAcZ = "); Serial.print(AZ);
-  Serial.print("\tGyX = "); Serial.print(GX);
-  Serial.print("\tGyY = "); Serial.print(GY);
-  Serial.print("\tGyZ = "); Serial.print(GZ);
+  Serial.print("\tTp = "); Serial.print(Tp);
+  Serial.print("\tAX = "); Serial.print(AX);
+  Serial.print("\tAY = "); Serial.print(AY);
+  Serial.print("\tAZ = "); Serial.print(AZ);
+  Serial.print("\tGX = "); Serial.print(GX);
+  Serial.print("\tGY = "); Serial.print(GY);
+  Serial.print("\tGZ = "); Serial.print(GZ);
 }
 
 void mostraCON()
@@ -24,5 +24,5 @@ void mostraCON()
 
 void mostraANG()
 {
-  Serial.print("180, " + String(Roll) + "," + String(Pitch) + "," + String(Yaw) + ", -180");
+  Serial.print("\t180, " + String(Roll) + "," + String(Pitch) + "," + String(Yaw) + ", -180");
 }

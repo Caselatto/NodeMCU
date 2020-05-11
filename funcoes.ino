@@ -1,12 +1,12 @@
-void converter()
+void converterRAW()
 {
-  AcX = AX / convACEL;
-  AcY = AY / convACEL;
-  AcZ = AZ / convACEL;
-  Tmp = (Tp + 12412.0) / 340.0;
-  GyX = GX / convGYRO;
-  GyY = GY / convGYRO;
-  GyZ = GZ / convGYRO;
+  AcX = float(AX) / convACEL;
+  AcY = float(AY) / convACEL;
+  AcZ = float(AZ) / convACEL;
+  Tmp = (float(Tp) + 12412.0) / 340.0;
+  GyX = float(GX) / convGYRO;
+  GyY = float(GY) / convGYRO;
+  GyZ = float(GZ) / convGYRO;
 }
 
 void PitchRollYaw()
@@ -25,8 +25,6 @@ void PitchRollYaw()
   Roll = confANG(Roll);
   Pitch = confANG(Pitch);
   Yaw = confANG(Yaw);
-
-  espera = 1;
 }
 
 float confANG(float valor)
@@ -40,4 +38,24 @@ float confANG(float valor)
     valor = valor + 360;
   }
   return (valor);
+}
+
+void corrigirANGULO()
+{
+  /*  aux = aux + 1;
+    if (aux == 50)
+    {
+      Yaw = Yaw - 1.266;
+    }
+    if (aux == 100)
+    {
+      Roll = Roll - -0.0064;
+      Pitch = Pitch - -0.0088;
+      Yaw = Yaw - 1.266;
+      aux = 0;
+    }
+  */
+  Roll = Roll - (-0.03 / 2764);
+  Pitch = Pitch - (-0.06 / 2764);
+  Yaw = Yaw - (70.87 / 2764);
 }
