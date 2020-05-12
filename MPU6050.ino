@@ -5,10 +5,13 @@
 #include "I2Cdev.h"   //  
 
 float convGYRO, convACEL;
-float AcX = 0, AcY = 0, AcZ = 0, Tmp = 0, GyX = 0, GyY = 0, GyZ = 0;
+float AcX = 0, AcY = 0, AcZ = 0, Tmp = 0, GyX = 0, GyY = 0, GyZ = 0, VelX = 0, VelY = 0, VelZ = 0;
+float offAX, offAY, offAZ;
 long tempo_prev;
 float dt;
 int aux = 0;
+
+bool OFFSET = true;
 
 float Acc[2];
 float Pitch = 0;
@@ -52,13 +55,21 @@ void loop() {
   //Corrige erro no valor dos angulos
   corrigirANGULO();
 
+  velocidade();
+
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   //Mostra os valores
   //  mostraRAW();
-  //  mostraCON();
+  mostraCON();
   //  mostraANG();
+  mostraVEL();
+  Serial.print("\t" + String(dt));
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  if (OFFSET)
+  {
+    OFFSET = !OFFSET;
+  }
   led_state = !led_state;
   digitalWrite(LED, led_state);         // pisca LED do NodeMCU a cada leitura do sensor
   Serial.println();

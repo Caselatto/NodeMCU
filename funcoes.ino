@@ -7,6 +7,12 @@ void converterRAW()
   GyX = float(GX) / convGYRO;
   GyY = float(GY) / convGYRO;
   GyZ = float(GZ) / convGYRO;
+  if (OFFSET)
+  {
+    offAX = AcX;
+    offAY = AcY;
+    offAZ = AcZ;
+  }
 }
 
 void PitchRollYaw()
@@ -58,4 +64,14 @@ void corrigirANGULO()
   Roll = Roll - (-0.03 / 2764);
   Pitch = Pitch - (-0.06 / 2764);
   Yaw = Yaw - (70.87 / 2764);
+}
+
+void velocidade()
+{
+  if (!OFFSET)
+  {
+    VelX = VelX + (AcX - offAX) * dt;
+    VelY = VelY + (AcY - offAY) * dt;
+    VelZ = VelZ + (AcZ - offAZ) * dt;
+  }
 }
