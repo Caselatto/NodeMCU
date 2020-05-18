@@ -4,25 +4,33 @@
 #include "Wire.h"     //  Biblioteca de comunicação I2C
 #include "I2Cdev.h"   //  
 
-float convGYRO, convACEL;
-float AcX = 0, AcY = 0, AcZ = 0, Tmp = 0, GyX = 0, GyY = 0, GyZ = 0, VelX = 0, VelY = 0, VelZ = 0;
-float offAX, offAY, offAZ;
-long tempo_prev;
-float dt;
-int aux = 0;
-
-bool OFFSET = true;
-
-float Acc[2];
-float Pitch = 0;
-float Roll = 0;
-float Yaw = 0;
-
-//Conversão de radianos para graus (180/PI)
-#define RAD_TO_DEG 57.295779
-
-// variáveis para armazenar os dados "crus" do acelerômetro
+// Armazenamento dos dados "crus" do acelerômetro
 int16_t AX, AY, AZ, Tp, GX, GY, GZ;
+
+// Geral
+double VelX = 0, VelY = 0, VelZ = 0;
+double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
+double tempo_prev;
+double dt;
+
+// Media movel
+#define n 10
+double AmX, AmY, AmZ, GmX, GmY, GmZ;
+double numbers[n];
+
+// Variavel do offset
+bool OFFSET = true;
+double offAX, offAY, offAZ;
+
+// Calculo ângulos
+double Acc[2];
+double Pitch = 0;
+double Roll = 0;
+double Yaw = 0;
+
+//Conversão de unidades
+#define RAD_TO_DEG 57.295779  // Radianos para graus (180/PI)
+long convGYRO, convACEL;     // Datasheet do sensor
 
 #define LED D8
 bool led_state = false;
@@ -49,21 +57,36 @@ void loop() {
   // Converte os dados do sensor
   converterRAW();
 
+  // Faz a média do valor após conversão
+  AmX = media_movel(AcX);
+  AmY = media_movel(AcY);
+  AmZ = media_movel(AcZ);
+  //  GmX = media_movel(GyX);
+  //  GmY = media_movel(GyY);
+  //  GmZ = media_movel(GyZ);
+
+  //Offset
+  offset();
+
   // Calcula os ângulos em função dos eixos do sensor
-  PitchRollYaw();
+  PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
 
   //Corrige erro no valor dos angulos
   corrigirANGULO();
 
-  velocidade();
+  //Calculo da velocidade
+  velocidade(AmX, AmY, AmZ);
 
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   //Mostra os valores
   //  mostraRAW();
-  mostraCON();
+  mostraOFF();
+  //  mostraCON();
+  mostraMED();
   //  mostraANG();
-  mostraVEL();
-  Serial.print("\t" + String(dt));
+  //  mostraVEL();
+  //  Serial.print("\t" + String(dt));
+  //  Serial.print(OFFSET);
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   if (OFFSET)

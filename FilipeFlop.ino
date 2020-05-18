@@ -19,7 +19,7 @@ const int ACCEL_XOUT =    0x3B; // registro de leitura do eixo X do acelerômetr
 */
 void initI2C()
 {
-  //Serial.println("---inside initI2C");
+  Serial.println("---inside initI2C");
   Wire.begin(sda_pin, scl_pin);
 }
 
