@@ -62,5 +62,8 @@ void velocidade(double aX, double aY, double aZ)
     VelX = VelX + (aX - offAX) * dt;
     VelY = VelY + (aY - offAY) * dt;
     VelZ = VelZ + ((aZ - offAZ) * dt);
+    offAX = aX;
+    offAY = aY;
+    offAZ = aZ;
   }
 }
