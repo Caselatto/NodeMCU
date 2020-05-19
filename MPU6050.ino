@@ -1,8 +1,5 @@
-
 #include "Arduino.h"  //  
-#include "MPU6050.h"  //  
-#include "Wire.h"     //  Biblioteca de comunicação I2C
-#include "I2Cdev.h"   //  
+#include "Wire.h"     //  Biblioteca de comunicação I2C 
 
 // Armazenamento dos dados "crus" do acelerômetro
 int16_t AX, AY, AZ, Tp, GX, GY, GZ;
@@ -35,9 +32,6 @@ long convGYRO, convACEL;     // Datasheet do sensor
 #define LED1 D8
 #define LED2 D7
 bool led_state = false;
-
-// object initialization
-MPU6050 mpu6050;
 
 void setup() {
   pinMode(LED1, OUTPUT);
@@ -83,12 +77,12 @@ void loop() {
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   //Mostra os valores
   //  mostraRAW();
-  mostraOFF();
+  //  mostraOFF();
   //  mostraCON();
-  mostraMED();
+  //  mostraMED();
   //  mostraANG();
   mostraVEL();
-  Serial.print("\t" + String(dt));
+  //  Serial.print("\t" + String(dt));
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   if (OFFSET)
