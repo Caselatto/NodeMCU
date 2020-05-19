@@ -14,13 +14,13 @@ double tempo_prev;
 double dt;
 
 // Media movel
-#define n 10
-double AmX, AmY, AmZ, GmX, GmY, GmZ;
-double numbers[n];
+#define n 15
+double AmX = 0, AmY = 0, AmZ = 0, GmX = 0, GmY = 0, GmZ = 0;
 
 // Variavel do offset
-bool OFFSET = true;
-double offAX, offAY, offAZ;
+bool OFFSET = false;
+double offAX = 0, offAY = 0, offAZ = 0, offRoll = 0, offPitch = 0, offYaw = 0;
+uint8_t botOffset = D5;
 
 // Calculo ângulos
 double Acc[2];
@@ -32,15 +32,21 @@ double Yaw = 0;
 #define RAD_TO_DEG 57.295779  // Radianos para graus (180/PI)
 long convGYRO, convACEL;     // Datasheet do sensor
 
-#define LED D8
+#define LED1 D8
+#define LED2 D7
 bool led_state = false;
 
 // object initialization
 MPU6050 mpu6050;
 
 void setup() {
-  pinMode(LED, OUTPUT);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  digitalWrite(LED1, led_state);
+  digitalWrite(LED2, led_state);
   Serial.begin(9600);
+
+  attachInterrupt(digitalPinToInterrupt(botOffset), offset, RISING);
 
   //  Setup_CircuitIO();
   Setup_FilipeFlop();
@@ -58,21 +64,18 @@ void loop() {
   converterRAW();
 
   // Faz a média do valor após conversão
-  AmX = media_movel(AcX);
-  AmY = media_movel(AcY);
-  AmZ = media_movel(AcZ);
-  //  GmX = media_movel(GyX);
-  //  GmY = media_movel(GyY);
-  //  GmZ = media_movel(GyZ);
+  AmX = media_movelaX(AcX);
+  AmY = media_movelaY(AcY);
+  AmZ = media_movelaZ(AcZ);
 
   //Offset
-  offset();
+  //  offset();
 
   // Calcula os ângulos em função dos eixos do sensor
-  PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
+  //  PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
 
   //Corrige erro no valor dos angulos
-  corrigirANGULO();
+  //  corrigirANGULO();
 
   //Calculo da velocidade
   velocidade(AmX, AmY, AmZ);
@@ -84,16 +87,29 @@ void loop() {
   //  mostraCON();
   mostraMED();
   //  mostraANG();
-  //  mostraVEL();
-  //  Serial.print("\t" + String(dt));
-  //  Serial.print(OFFSET);
+  mostraVEL();
+  Serial.print("\t" + String(dt));
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   if (OFFSET)
   {
+    offAX = AmX;
+    offAY = AmY;
+    offAZ = AmZ;
+
+    VelX = 0;
+    VelY = 0;
+    VelZ = 0;
+
+    /*
+        offRoll = Roll;
+        offPitch = Pitch;
+        offYaw = Yaw;
+    */
     OFFSET = !OFFSET;
   }
   led_state = !led_state;
-  digitalWrite(LED, led_state);         // pisca LED do NodeMCU a cada leitura do sensor
+  digitalWrite(LED1, led_state);
+  digitalWrite(LED2, !led_state);         // pisca LED do NodeMCU a cada leitura do sensor
   Serial.println();
 }

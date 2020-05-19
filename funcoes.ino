@@ -1,40 +1,20 @@
 void offset()
 {
-  if (OFFSET)
-  {
-    offAX = AmX;
-    offAY = AmY;
-    offAZ = AmZ;
-  }
+  //  Serial.println();
+  //  Serial.println("Botão offset pressionado");
+  //  Serial.println();
+  OFFSET = true;
 }
 
 void converterRAW()
 {
-  AcX = (double(AX) / convACEL);
-  AcY = (double(AY) / convACEL);
-  AcZ = (double(AZ) / convACEL);
+  AcX = double(AX) / convACEL;
+  AcY = double(AY) / convACEL;
+  AcZ = double(AZ) / convACEL;
   Tmp = (double(Tp) + 12412.0) / 340.0;
   GyX = double(GX) / convGYRO;
   GyY = double(GY) / convGYRO;
   GyZ = double(GZ) / convGYRO;
-}
-
-double media_movel(double entrada)
-{
-  int i;
-  //desloca os elementos do vetor de média móvel
-  for (i = (n - 1); i > 0 ; i = i - 1)
-  {
-    numbers[i] = numbers[i - 1];
-  }
-  numbers[0] = entrada; //posição inicial do vetor recebe a leitura original
-  double acc = 0;          //acumulador para somar os pontos da média móvel
-  for (int i = 0; i < n; i++)
-  {
-    acc += numbers[i]; //faz a somatória do número de pontos
-  }
-  acc = acc / n;
-  return (acc); //retorna a média móvel
 }
 
 void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double gZ)
@@ -50,9 +30,9 @@ void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double 
   //Integración respecto del tiempo paras calcular el YAW
   Yaw = Yaw + gZ * dt;
 
-  Roll = confANG(Roll);
-  Pitch = confANG(Pitch);
-  Yaw = confANG(Yaw);
+  Roll = confANG(Roll) - offRoll;
+  Pitch = confANG(Pitch) - offPitch;
+  Yaw = confANG(Yaw) - offYaw;
 }
 
 float confANG(float valor)
