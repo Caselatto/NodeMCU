@@ -1,73 +1,75 @@
-
+// Setup the server to receive data over WiFi
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
+// Configuration parameters for Access Point
 const char *ssid = "RedeWIFI_NodeMCU";
 const char *password = "123456789";
 
-int readingInt = 999;
+IPAddress ip(192, 168, 11, 4);
+IPAddress gateway(192, 168, 11, 1);
+IPAddress subnet(255, 255, 255, 0);
+
+// Set up the server object
+ESP8266WebServer server;
+
+// Data received
+double value = 0.00;
 #define LED1 D8
 #define LED2 D6
 
-ESP8266WebServer server(80);
-
-void handleSentVar()
-{
-  //  Serial.println("handleSentVar function called...");
-  if (server.hasArg("sensor_reading")) // this is the variable sent from the client
-  {
-    Serial.println("Sensor reading received...");
-    readingInt = server.arg("sensor_reading").toInt();
-
-    Serial.print("Reading: ");
-    Serial.println(readingInt);
-    Serial.println();
-    //    server.send(200, "text/html", "Data received");
-    return;
-  }
-}
-
 void setup()
 {
-  delay(1000);
-  Serial.begin(9600);
+  delay(500);
+
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
   digitalWrite(LED1, LOW);
   digitalWrite(LED2, LOW);
 
+  Serial.begin(9600);
+  Serial.println("Começando");
 
-  Serial.println();
-  Serial.print("Configuring access point...");
-
+  WiFi.mode(WIFI_AP);
+  WiFi.softAPConfig(ip, gateway, subnet);
   WiFi.softAP(ssid, password);
 
-  IPAddress myIP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
-  Serial.println(myIP);
-  server.on("/data/", HTTP_GET, handleSentVar); // when the server receives a request with /data/ in the string then run the handleSentVar function
-  server.begin();
-
-  Serial.println("HTTP server started");
+  // Print IP for check
   Serial.println();
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.softAPIP());
 
-  Serial.print("Connected as ");
-  Serial.println(ssid);
-  Serial.print("Password: ");
-  Serial.println(password);
+  // Configure the server's route
+  server.on("/", handleIndex); //Use the top root to report the last sensor value
+  server.on("/update", handleUpdate); //Use this route to update the sensor value
+  server.begin();
 }
 
 void loop()
 {
   server.handleClient();
-  if (readingInt == 0)
+  if (value == 0)
   {
     digitalWrite(LED1, HIGH);
     digitalWrite(LED2, LOW);
   }
-  if (readingInt == 1)
+  if (value == 1)
   {
     digitalWrite(LED1, LOW);
     digitalWrite(LED2, HIGH);
   }
+}
+
+void handleIndex()
+{
+  server.send(200, "text/plain", String(value)); //Needs refresh for update
+}
+
+void handleUpdate()
+{
+  value = server.arg("value").toFloat();
+  Serial.print(value);
+  Serial.print("\t");
+  Serial.println(millis());
+  server.send(200, "text/plain", "Updated");
 }
