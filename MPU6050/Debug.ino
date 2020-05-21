@@ -55,7 +55,7 @@ void mostraANG()
 
 void mostraVEL()
 {
-  Serial.print("\tVelX = "); Serial.print(VelX,5);
-  Serial.print("\tVelY = "); Serial.print(VelY,5);
-  Serial.print("\tVelZ = "); Serial.print(VelZ,5);
+  Serial.print("\tVelX = "); Serial.print(VelX, 5);
+  Serial.print("\tVelY = "); Serial.print(VelY, 5);
+  Serial.print("\tVelZ = "); Serial.print(VelZ, 5);
 }

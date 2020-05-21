@@ -1,3 +1,31 @@
+
+void finaliza()
+{
+  if (OFFSET)
+  {
+    offAX = AmX;
+    offAY = AmY;
+    offAZ = AmZ;
+
+    VelX = 0;
+    VelY = 0;
+    VelZ = 0;
+
+    /*
+        offRoll = Roll;
+        offPitch = Pitch;
+        offYaw = Yaw;
+    */
+    OFFSET = !OFFSET;
+  }
+  led_state = !led_state;
+  digitalWrite(LED1, led_state);
+  digitalWrite(LED2, !led_state);         // pisca LED do NodeMCU a cada leitura do sensor
+  Serial.println();
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void offset()
 {
   //  Serial.println();
@@ -5,6 +33,8 @@ void offset()
   //  Serial.println();
   OFFSET = true;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void converterRAW()
 {
@@ -16,6 +46,8 @@ void converterRAW()
   GyY = double(GY) / convGYRO;
   GyZ = double(GZ) / convGYRO;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double gZ)
 {
@@ -35,6 +67,9 @@ void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double 
   Yaw = confANG(Yaw) - offYaw;
 }
 
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 float confANG(float valor)
 {
   if (valor > 180)
@@ -48,12 +83,16 @@ float confANG(float valor)
   return (valor);
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void corrigirANGULO()
 {
   Roll = Roll - (-0.03 / 2764);
   Pitch = Pitch - (-0.06 / 2764);
   Yaw = Yaw - (70.87 / 2764);
 }
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void velocidade(double aX, double aY, double aZ)
 {

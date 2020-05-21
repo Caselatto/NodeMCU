@@ -172,6 +172,7 @@ void setAccelScale()
   0x48 72 GYRO_ZOUT[7:0]
 
 */
+
 void readRawMPU_FilipeFlop()
 {
   Wire.beginTransmission(MPU_ADDR);       // inicia comunicação com endereço do MPU6050
