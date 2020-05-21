@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 
 // Data send
-int valor = 100;
+int valor;
 
 // Configuration parameters for Access Point
 const char *ssid = "RedeWIFI_NodeMCU";
@@ -34,11 +34,18 @@ void loop()
 {
   valor = digitalRead(D5);
 
+  envia(valor,"value");
+}
+
+void envia(double X, String Y)
+{
   // Connect to the server and send data
   if (client.connect(host, 80))
   {
-    String url = "/update?value=";
-    url += String(valor);
+    String url = "/update?";
+    url += Y;
+    url += "=";
+    url += String(X);
     client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: keep-alive\r\n\r\n");
     /*
       delay(10);

@@ -16,7 +16,7 @@ ESP8266WebServer server;
 // Data received
 double value = 0.00;
 #define LED1 D8
-#define LED2 D6
+#define LED2 D7
 
 void setup()
 {
