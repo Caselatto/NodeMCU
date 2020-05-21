@@ -63,6 +63,8 @@ void loop()
 void handleIndex()
 {
   server.send(200, "text/plain", String(value)); //Needs refresh for update
+  delay(100);
+  handleIndex();
 }
 
 void handleUpdate()
@@ -71,5 +73,5 @@ void handleUpdate()
   Serial.print(value);
   Serial.print("\t");
   Serial.println(millis());
-  server.send(200, "text/plain", "Updated");
+  //  server.send(200, "text/plain", "Updated");
 }

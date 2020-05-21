@@ -40,13 +40,15 @@ void loop()
     String url = "/update?value=";
     url += String(valor);
     client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: keep-alive\r\n\r\n");
-    delay(10);
-    // Read all the lines of the response and print them to Serial
-    Serial.println("Resposta: ");
-    while (client.available())
-    {
+    /*
+      delay(10);
+      // Read all the lines of the response and print them to Serial
+      Serial.println("Resposta: ");
+      while (client.available())
+      {
       String line = client.readStringUntil('\r');
       Serial.print(line);
-    }
+      }
+    */
   }
 }
