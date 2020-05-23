@@ -38,21 +38,21 @@ void mostraMED()
 
 void mostraANG()
 {
-  //  Serial.print("\t");
-  //  Serial.print(180);
-  //  Serial.print(",");
-  //  Serial.print(Roll);
-  //  Serial.print(",");
-  //  Serial.print(Pitch);
-  //  Serial.print(",");
-  //  Serial.print(Yaw);
-  //  Serial.print(",");
-  //  Serial.print(-180);
+  Serial.print("\t");
+  Serial.print(180);
+  Serial.print(",");
+  Serial.print(Roll);
+  Serial.print(",");
+  Serial.print(Pitch);
+  Serial.print(",");
+  Serial.print(Yaw);
+  Serial.print(",");
+  Serial.print(-180);
 }
 
 void mostraVEL()
 {
-  //  Serial.print("\tVelX = "); Serial.print(VelX, 5);
-  //  Serial.print("\tVelY = "); Serial.print(VelY, 5);
-  //  Serial.print("\tVelZ = "); Serial.print(VelZ, 5);
+  Serial.print("\tVelX = "); Serial.print(VelX, 5);
+  Serial.print("\tVelY = "); Serial.print(VelY, 5);
+  Serial.print("\tVelZ = "); Serial.print(VelZ, 5);
 }
