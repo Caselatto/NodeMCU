@@ -1,4 +1,5 @@
-#define CS_PIN  D8              // Pino ligado ao CS do módulo SD Card
+#ifdef CARTAO
+
 char filename[7] = "00.TXT";    // Nome do arquivo inicial
 int i = 0;
 
@@ -30,17 +31,12 @@ void Setup_Cartao()
   Serial.println("SD ok");
 }
 
-void mostra (float valor)
+void salva(double valor)
 {
-  if (sdFile)
-  {
-    Serial.print(valor);
-    Serial.print("\t");
-    sdFile.print(valor);
-    sdFile.print(",");
-  }
-  else
-  {
-    Serial.println("Falha ao abrir o cartão");
-  }
+  sdFile.print(valor);
+  sdFile.print(",");
 }
+
+
+
+#endif

@@ -1,6 +1,3 @@
-#define scl_pin  D1  // definição do pino I2C SCL
-#define sda_pin  D2  // definição do pino I2C SDA
-
 /*
    Definições de alguns endereços mais comuns do MPU6050
    os registros podem ser facilmente encontrados no mapa de registros do MPU6050

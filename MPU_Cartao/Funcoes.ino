@@ -1,9 +1,6 @@
 
 void finaliza()
 {
-  dt = (millis() - tempo_prev) / 1000.0;
-  tempo_prev = millis();
-
   if (OFFSET)
   {
     offAX = AmX;
@@ -25,6 +22,11 @@ void finaliza()
   digitalWrite(LED1, led_state);
   digitalWrite(LED2, !led_state);         // pisca LED do NodeMCU a cada leitura do sensor
   Serial.println();
+
+#ifdef CARTAO
+  sdFile.println();
+  sdFile.flush();
+#endif
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -101,11 +103,15 @@ void velocidade(double aX, double aY, double aZ)
 {
   if (!OFFSET)
   {
-    VelX = VelX + (((aX - offAX) * dt) * 3.6);
-    VelY = VelY + (((aY - offAY) * dt) * 3.6);
-    VelZ = VelZ + (((aZ - offAZ) * dt) * 3.6);
+    VelX = VelX + (aX - offAX) * dt;
+    VelY = VelY + (aY - offAY) * dt;
+    VelZ = VelZ + ((aZ - offAZ) * dt);
     offAX = aX;
     offAY = aY;
     offAZ = aZ;
+
+    //    VelX = VelX * 3.6;
+    //    VelY = VelY * 3.6;
+    //    VelZ = VelZ * 3.6;
   }
 }
