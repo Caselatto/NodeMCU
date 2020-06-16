@@ -49,10 +49,14 @@ void setup()
   valor = millis();
 }
 
-void mostra (float valor)
+void mostra (char nome[9], float valor)
 {
+  Serial.print(nome);
+  Serial.print("\t");
   Serial.print(valor);
   Serial.print("\t");
+  sdFile.print(nome);
+  sdFile.print(",");
   sdFile.print(valor);
   sdFile.print(",");
 }
@@ -64,7 +68,9 @@ void loop ()
   if (sdFile)
   {
     Serial.println("O arquivo foi aberto com sucesso.");
-    mostra(valor / 1000);
+    mostra("milli", valor);
+    valor = valor / 1000;
+    mostra("0123456789ABCDEFGHIJ0123456789", valor);
     //    sdFile.println(valor);
     //    sdFile.print(" | ");
     //    sdFile.print(valor / 1000);
