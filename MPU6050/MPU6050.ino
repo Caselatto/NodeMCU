@@ -10,7 +10,7 @@ int16_t AX, AY, AZ, Tp, GX, GY, GZ;
 // Variavel do offset
 bool OFFSET = false;
 double offAX = 0, offAY = 0, offAZ = 0, offRoll = 0, offPitch = 0, offYaw = 0;
-uint8_t botOffset = D5;
+uint8_t botOffset = D4;
 
 // Armazenamento dos dados após conversão
 double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
@@ -21,7 +21,7 @@ double Pitch = 0;
 double Roll = 0;
 double Yaw = 0;
 double Acc[2];
-#define RAD_TO_DEG 57.295779  // Radianos para graus (180/PI)
+#define RAD_TO_DEG 57.2957795  // Radianos para graus (180/PI)
 
 // Calculo velocidade
 double VelX = 0, VelY = 0, VelZ = 0;
@@ -31,8 +31,8 @@ double AmX = 0, AmY = 0, AmZ = 0;
 #define n 30
 
 // Leds piscando alternado a cada ciclo do loop
-#define LED1 D8
-#define LED2 D7
+#define LED1 D0
+#define LED2 D3
 bool led_state = false;
 
 void setup() {
@@ -42,7 +42,7 @@ void setup() {
   digitalWrite(LED2, led_state);
   Serial.begin(9600);
 
-  attachInterrupt(digitalPinToInterrupt(botOffset), offset, RISING);
+  //  attachInterrupt(digitalPinToInterrupt(botOffset), offset, RISING);
 
   //  Setup_CircuitIO();
   Setup_FilipeFlop();
@@ -68,7 +68,7 @@ void loop() {
   //  offset();
 
   // Calcula os ângulos em função dos eixos do sensor
-  //  PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
+  PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
 
   //Corrige erro no valor dos angulos
   //  corrigirANGULO();
@@ -82,8 +82,8 @@ void loop() {
   //  mostraOFF();
   //  mostraCON();
   //  mostraMED();
-  //  mostraANG();
-  mostraVEL();
+  mostraANG();
+  //  mostraVEL();
   //  Serial.print("\t" + String(dt));
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

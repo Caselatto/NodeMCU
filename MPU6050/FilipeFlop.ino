@@ -1,5 +1,16 @@
-#define scl_pin  D1  // definição do pino I2C SCL
-#define sda_pin  D2  // definição do pino I2C SDA
+/*
+  ================================================================
+  ===                          PINOUT                          ===
+  ================================================================
+*/
+
+//MPU
+/*VCC       3v
+  GND       GND
+*/
+#define scl_pin  D2
+#define sda_pin  D1
+
 
 /*
    Definições de alguns endereços mais comuns do MPU6050
