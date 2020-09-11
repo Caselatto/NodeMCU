@@ -1,13 +1,11 @@
 void mostraRAW()
 {
-  Serial.print(tempo_prev);
-  Serial.print("\tTp = "); Serial.print(Tp);
-  Serial.print("\tAX = "); Serial.print(AX);
-  Serial.print("\tAY = "); Serial.print(AY);
-  Serial.print("\tAZ = "); Serial.print(AZ);
-  Serial.print("\tGX = "); Serial.print(GX);
-  Serial.print("\tGY = "); Serial.print(GY);
-  Serial.print("\tGZ = "); Serial.print(GZ);
+  salva("AX", AX);
+  salva("AY", AY);
+  salva("AZ", AZ);
+  salva("GX", GX);
+  salva("GY", GY);
+  salva("GZ", GZ);
 }
 
 void mostraOFF()
@@ -19,14 +17,12 @@ void mostraOFF()
 
 void mostraCON()
 {
-  //  Serial.print(tempo_prev);
-  Serial.print("\tTmp = "); Serial.print(Tmp);
-  Serial.print("\tAcX = "); Serial.print(AcX);
-  Serial.print("\tAcY = "); Serial.print(AcY);
-  Serial.print("\tAcZ = "); Serial.print(AcZ);
-  Serial.print("\tGyX = "); Serial.print(GyX);
-  Serial.print("\tGyY = "); Serial.print(GyY);
-  Serial.print("\tGyZ = "); Serial.print(GyZ);
+  salva("AcX", AcX);
+  salva("AcY", AcY);
+  salva("AcZ", AcZ);
+  salva("GyX", GyX);
+  salva("GyY", GyY);
+  salva("GyZ", GyZ);
 }
 
 void mostraMED()
@@ -38,37 +34,14 @@ void mostraMED()
 
 void mostraANG()
 {
-  //  Serial.print("\t");
-  //  Serial.print(180);
-  //  Serial.print(",");
-  //  Serial.print(Roll);
-  //  Serial.print(",");
-  //  Serial.print(Pitch);
-  //  Serial.print(",");
-  //  Serial.print(Yaw);
-  //  Serial.print(",");
-  //  Serial.print(-180);
-#ifdef CARTAO
-  sdFile.print("Roll,");
-  salva(Roll);
-  sdFile.print("Pitch,");
-  salva(Pitch);
-  sdFile.print("Yaw,");
-  salva(Yaw);
-#endif
+  salva("Roll", Roll - erroROLL);
+  salva("Pitch", Pitch - erroPITCH);
+  salva("Yaw", Yaw);
 }
 
 void mostraVEL()
 {
-  //  Serial.print("\tVelX = "); Serial.print(VelX, 5);
-  //  Serial.print("\tVelY = "); Serial.print(VelY, 5);
-  //  Serial.print("\tVelZ = "); Serial.print(VelZ, 5);
-#ifdef CARTAO
-  sdFile.print("VelX,");
-  salva(VelX);
-  sdFile.print("VelY,");
-  salva(VelY);
-  sdFile.print("VelZ,");
-  salva(VelZ);
-#endif
+  salva("VelX", VelX);
+  salva("VelY", VelY);
+  salva("VelZ", VelZ);
 }

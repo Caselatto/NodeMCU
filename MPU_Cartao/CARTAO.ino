@@ -1,6 +1,6 @@
 #ifdef CARTAO
 
-char filename[7] = "00.TXT";    // Nome do arquivo inicial
+char filename[9] = "00.csv";    // Nome do arquivo inicial
 int i = 0;
 
 void Setup_Cartao()
@@ -17,11 +17,11 @@ void Setup_Cartao()
   {
     if (i < 10)
     {
-      sprintf(filename, "0%d.TXT", i);
+      sprintf(filename, "0%d.csv", i);
     }
     else
     {
-      sprintf(filename, "%2d.TXT", i);
+      sprintf(filename, "%2d.csv", i);
     }
     i++;
   }
@@ -31,12 +31,18 @@ void Setup_Cartao()
   Serial.println("SD ok");
 }
 
-void salva(double valor)
-{
-  sdFile.print(valor);
-  sdFile.print(",");
-}
-
-
-
 #endif
+
+void salva(char nome[9], double valor)
+{
+  Serial.print(nome);
+  Serial.print("\t");
+  Serial.print(valor, 3);
+  Serial.print("\t");
+#ifdef CARTAO
+  sdFile.print(nome);
+  sdFile.print(";\t");
+  sdFile.print(valor, 2);
+  sdFile.print(";\t");
+#endif
+}
