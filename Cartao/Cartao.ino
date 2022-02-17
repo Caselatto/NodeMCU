@@ -8,7 +8,7 @@
    MOSI       D7
    SCK        D5
 */
-#define CS_PIN  D8  //pino ligado ao CS do módulo SD Card
+#define CS_PIN  2  //pino ligado ao CS do módulo SD Card
 
 
 char filename[7] = "00.TXT";    // Nome do arquivo inicial
@@ -19,7 +19,7 @@ File sdFile;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   pinMode(CS_PIN, OUTPUT);   // Inicia cartão SD
   if (!SD.begin(CS_PIN))

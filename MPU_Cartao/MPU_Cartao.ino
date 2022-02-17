@@ -20,15 +20,15 @@
 /*VCC       3v
   GND       GND
 */
-#define scl_pin  D2
-#define sda_pin  D1
+#define scl_pin  4  //D2
+#define sda_pin  5  //D1
 
 //Botão
-//uint8_t botOffset = D4;
+//uint8_t botOffset = 4;
 
 //Leds
-#define LED1 D0
-#define LED2 D3
+#define LED1 16 //D0
+#define LED2 0  //D3
 
 #ifdef CARTAO
 //Cartão
@@ -38,7 +38,7 @@
    MOSI       D7
    SCK        D5
 */
-#define CS_PIN  D8  //pino ligado ao CS do módulo SD Card
+#define CS_PIN  15  //D8   pino ligado ao CS do módulo SD Card
 File sdFile;
 #endif
 
@@ -56,7 +56,7 @@ int16_t AX, AY, AZ, Tp, GX, GY, GZ;
 
 // Variavel do offset
 bool OFFSET = false;
-double offAX = 0, offAY = 0, offAZ = 0, offRoll = 0, offPitch = 0, offYaw = 0;
+double offAX = 0, offAY = 0, offAZ = 0, offGX = 0, offGY = 0, offGZ = 0, offRoll = 0, offPitch = 0, offYaw = 0;
 
 // Armazenamento dos dados após conversão
 double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
@@ -77,7 +77,7 @@ double AmX = 0, AmY = 0, AmZ = 0;
 #define n 30
 
 // Leds piscando alternado a cada ciclo do loop
-bool led_state = false;
+bool led_state = true;
 
 /*
   ===============================================================
@@ -91,7 +91,11 @@ void setup()
   pinMode(LED2, OUTPUT);
   digitalWrite(LED1, led_state);
   digitalWrite(LED2, led_state);
+  delay(1000);
+  digitalWrite(LED1, led_state);
+  digitalWrite(LED2, led_state);
   Serial.begin(9600);
+  Serial.println("Começou");
 
   Setup_MPU();
 #ifdef CARTAO
@@ -124,20 +128,20 @@ void loop ()
 
   // Calcula os ângulos em função dos eixos do sensor
   PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
-  //Corrige erro no valor dos angulos
+  // Corrige erro no valor dos angulos
   //  corrigirANGULO();
 
-  //Calculo da velocidade
-  velocidade(AmX, AmY, AmZ);
+  //  Calculo da velocidade
+  //  velocidade(AmX, AmY, AmZ);
 
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   //Mostra os valores
   //  mostraRAW();
   //  mostraOFF();
-  //  mostraCON();
+  mostraCON();
   //  mostraMED();
-  mostraANG();
-  mostraVEL();
+  //  mostraANG();
+  //  mostraVEL();
   //  Serial.print("\t" + String(dt, 5));
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   finaliza();

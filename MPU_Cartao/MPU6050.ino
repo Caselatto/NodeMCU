@@ -193,6 +193,24 @@ void Read_MPU()
   GY |= Wire.read();
   GZ = Wire.read() << 8;
   GZ |= Wire.read();
+
+  if (OFFSET)
+  {
+    offAX = AcX;
+    offAY = AcY;
+    offAZ = AcZ;
+
+    VelX = 0;
+    VelY = 0;
+    VelZ = 0;
+
+    /*
+        offRoll = Roll;
+        offPitch = Pitch;
+        offYaw = Yaw;
+    */
+    OFFSET = !OFFSET;
+  }
 }
 
 void Setup_MPU()
