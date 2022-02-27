@@ -56,7 +56,7 @@ int16_t AX, AY, AZ, Tp, GX, GY, GZ;
 
 // Variavel do offset
 bool OFFSET = false;
-double offAX = 0, offAY = 0, offAZ = 0, offGX = 0, offGY = 0, offGZ = 0, offRoll = 0, offPitch = 0, offYaw = 0;
+double offAX = 0, offAY = 0, offAZ = 0, offGX = 0, offGY = 0, offGZ = 0, offRoll = 0, offPitch = 0, offYaw = 0, offTempo;
 
 // Armazenamento dos dados após conversão
 double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
@@ -100,7 +100,32 @@ void setup()
   Setup_MPU();
 #ifdef CARTAO
   Setup_Cartao();
+
+  sdFile.print("Tempo;\t");
+  sdFile.print("AX;\t");
+  sdFile.print("AY;\t");
+  sdFile.print("AZ;\t");
+  sdFile.print("GX;\t");
+  sdFile.print("GY;\t");
+  sdFile.print("GZ;\t");
+  sdFile.print("AcX;\t");
+  sdFile.print("AcY;\t");
+  sdFile.print("AcZ;\t");
+  sdFile.print("GyX;\t");
+  sdFile.print("GyY;\t");
+  sdFile.print("GyZ;\t");
+  sdFile.print("Roll;\t");
+  sdFile.print("Pitch;\t");
+  sdFile.print("Yaw;\t");
+  sdFile.print("VelX;\t");
+  sdFile.print("VelY;\t");
+  sdFile.print("VelZ;\t");
+
+  sdFile.println();
+  sdFile.flush();
+  //  Serial.end();
 #endif
+  offTempo = millis();
 }
 
 /*
@@ -122,9 +147,9 @@ void loop ()
   converterRAW();
 
   // Faz a média do valor após conversão
-  AmX = media_movelaX(AcX);
-  AmY = media_movelaY(AcY);
-  AmZ = media_movelaZ(AcZ);
+  //  AmX = media_movelaX(AcX);
+  //  AmY = media_movelaY(AcY);
+  //  AmZ = media_movelaZ(AcZ);
 
   // Calcula os ângulos em função dos eixos do sensor
   PitchRollYaw(AcX, AcY, AcZ, GyX, GyY, GyZ);
@@ -132,17 +157,17 @@ void loop ()
   //  corrigirANGULO();
 
   //  Calculo da velocidade
-  //  velocidade(AmX, AmY, AmZ);
+  velocidade(AmX, AmY, AmZ);
 
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   //Mostra os valores
+  //  salva("Tempo", (millis() - offTempo) / 1000.0);
   //  mostraRAW();
   //  mostraOFF();
-  mostraCON();
+  //  mostraCON();
   //  mostraMED();
-  //  mostraANG();
+  mostraANG();
   //  mostraVEL();
-  //  Serial.print("\t" + String(dt, 5));
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   finaliza();
 }

@@ -40,8 +40,8 @@ void salva(char nome[9], double valor)
   Serial.print(valor, 3);
   Serial.print("\t");
 #ifdef CARTAO
-  sdFile.print(nome);
-  sdFile.print(";\t");
+  //  sdFile.print(nome);
+  //  sdFile.print(";\t");
   sdFile.print(valor, 2);
   sdFile.print(";\t");
 #endif

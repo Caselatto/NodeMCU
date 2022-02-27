@@ -43,24 +43,6 @@ void converterRAW()
     offGY = GyY;
     offGZ = GyZ;
   }
-
-  //  if (OFFSET)
-  //  {
-  //    offAX = AcX;
-  //    offAY = AcY;
-  //    offAZ = AcZ;
-  //
-  //    VelX = 0;
-  //    VelY = 0;
-  //    VelZ = 0;
-  //
-  //    /*
-  //        offRoll = Roll;
-  //        offPitch = Pitch;
-  //        offYaw = Yaw;
-  //    */
-  //    OFFSET = false;
-  //  }
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -74,11 +56,11 @@ void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double 
   Acc[2] = atan(aZ / sqrt(pow(aX, 2) + pow(aZ, 2))) * RAD_TO_DEG;
 
   //Aplicar el Filtro Complementario
-  Roll = 0.98 * (Roll + gX * dt) + 0.02 * Acc[0] - offRoll;
-  Pitch = 0.98 * (Pitch + gY * dt) + 0.02 * Acc[1] - offPitch;
+  Roll = 0.98 * (Roll + gX * dt) + 0.02 * Acc[0];
+  Pitch = 0.98 * (Pitch + gY * dt) + 0.02 * Acc[1];
   //Integración respecto del tiempo paras calcular el YAW
   //  Yaw = Yaw + gZ * dt - offYaw;
-  Yaw = 0.98 * (Yaw + gZ * dt) + 0.02 * Acc[2] - offYaw;
+  Yaw = 0.98 * (Yaw + gZ * dt) + 0.02 * Acc[2];
 
   if (offRoll == 0 && offPitch == 0 && offYaw == 0) {
     offRoll = Roll;

@@ -49,8 +49,8 @@ void mostraMED()
 
 void mostraANG()
 {
-  salva("Roll", Roll);    //- erroROLL);
-  salva("Pitch", Pitch);  // - erroPITCH);
+  salva("Roll", Roll);
+  salva("Pitch", Pitch);
   salva("Yaw", Yaw);
 }
 
