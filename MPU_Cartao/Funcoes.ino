@@ -14,16 +14,6 @@ void finaliza()
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void offset()
-{
-  //  Serial.println();
-  //  Serial.println("Botão offset pressionado");
-  //  Serial.println();
-  OFFSET = true;
-}
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 void converterRAW()
 {
   AcX = (double(AX) / convACEL);
@@ -33,7 +23,6 @@ void converterRAW()
   GyX = double(GX) / convGYRO;
   GyY = double(GY) / convGYRO;
   GyZ = double(GZ) / convGYRO;
-
 
   if (offAX == 0 && offAY == 0 && offAZ == 0 && offGX == 0 && offGY == 0 && offGZ == 0) {
     offAX = AcX;
@@ -51,7 +40,7 @@ void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double 
 {
   //A partir de los valores del acelerometro, se calculan los angulos Y, X
   //respectivamente, con la formula de la tangente.
-  Acc[1] = atan(aX / sqrt(pow(aY, 2) + pow(aZ, 2))) * RAD_TO_DEG;
+  Acc[1] = atan(-1 * aX / sqrt(pow(aY, 2) + pow(aZ, 2))) * RAD_TO_DEG;
   Acc[0] = atan(aY / sqrt(pow(aX, 2) + pow(aZ, 2))) * RAD_TO_DEG;
   Acc[2] = atan(aZ / sqrt(pow(aX, 2) + pow(aZ, 2))) * RAD_TO_DEG;
 
@@ -59,8 +48,7 @@ void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double 
   Roll = 0.98 * (Roll + gX * dt) + 0.02 * Acc[0];
   Pitch = 0.98 * (Pitch + gY * dt) + 0.02 * Acc[1];
   //Integración respecto del tiempo paras calcular el YAW
-  //  Yaw = Yaw + gZ * dt - offYaw;
-  Yaw = 0.98 * (Yaw + gZ * dt) + 0.02 * Acc[2];
+  Yaw = Yaw + gZ * dt;
 
   if (offRoll == 0 && offPitch == 0 && offYaw == 0) {
     offRoll = Roll;
@@ -72,7 +60,6 @@ void PitchRollYaw(double aX, double aY, double aZ, double gX, double gY, double 
   Pitch = confANG(Pitch);
   Yaw = confANG(Yaw);
 }
-
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -89,8 +89,8 @@ void setup()
 {
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
-  digitalWrite(LED1, led_state);
-  digitalWrite(LED2, led_state);
+  digitalWrite(LED1, !led_state);
+  digitalWrite(LED2, !led_state);
   delay(1000);
   digitalWrite(LED1, led_state);
   digitalWrite(LED2, led_state);
